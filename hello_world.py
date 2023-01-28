@@ -6,3 +6,15 @@ engine = create_engine("sqlite+pysqlite:///:memory:", echo=True, future=True)
 with engine.connect() as conn:
     result = conn.execute(text("select 'hello world'"))
     print(result.all())
+
+with engine.connect() as conn:
+    conn.execute(text("CREATE TABLE some_table (x int, y int)"))
+    conn.execute(
+        text("INSERT INTO some table (x, y) VALUES(:x, :y)"),
+        [{"x": 1, "y": 1}, {"x": 2, "y": 4}],
+    )
+    conn.commit()
+
+with engine.connect() as conn:
+    result = conn.execute(text("select * from some_table"))
+    print(result.all())
